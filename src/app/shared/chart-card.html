@@ -1,0 +1,31 @@
+<section class="chart-panel">
+  <div class="chart-heading">
+    <div>
+      <h2>{{ title }}</h2>
+      <p>{{ subtitle }}</p>
+    </div>
+    <div class="chart-periods" aria-label="Periodo de la gráfica">
+      <button [class.period-active]="period === '1h'" (click)="setPeriod('1h')">1 h</button>
+      <button [class.period-active]="period === '24h'" (click)="setPeriod('24h')">24 h</button>
+      <button [class.period-active]="period === '7d'" (click)="setPeriod('7d')">7 días</button>
+      <button [class.period-active]="period === 'custom'" (click)="setPeriod('custom')">Rango</button>
+    </div>
+  </div>
+  @if (period === 'custom') {
+    <div class="chart-custom-range">
+      <label>Desde <input type="datetime-local" [value]="customStart" (change)="customStart = inputValue($event)"></label>
+      <label>Hasta <input type="datetime-local" [value]="customEnd" (change)="customEnd = inputValue($event)"></label>
+      <button class="button button--small" (click)="applyCustomRange()">Aplicar</button>
+    </div>
+  }
+  @if (loading) {
+    <div class="chart-state">Cargando mediciones reales…</div>
+  } @else if (error) {
+    <div class="chart-state chart-state--error" role="alert">{{ error }}</div>
+  } @else if (!labels.length) {
+    <div class="chart-state">No hay mediciones en este periodo.</div>
+  } @else {
+    <div class="chart-canvas"><canvas baseChart [type]="'line'" [data]="chartData" [options]="chartOptions"></canvas></div>
+    <p class="chart-note">Se muestran {{ labels.length }} puntos representativos de hasta 50.000 mediciones.</p>
+  }
+</section>

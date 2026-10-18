@@ -1,0 +1,35 @@
+<div class="auth-layout">
+  <section class="auth-aside">
+    <a class="auth-brand" routerLink="/login"><span class="brand-mark">A</span><span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span></a>
+    <div class="auth-message">
+      <div class="eyebrow">AQUAGUARD IoT</div><h1>El entorno,<br>conectado a ti.</h1>
+      <p>Información ambiental clara y actualizada para tus dispositivos de monitoreo.</p>
+      <div class="sensor-illustration" aria-hidden="true"><span class="sensor-ring"></span><span class="sensor-core"></span><span class="sensor-line sensor-line--one"></span><span class="sensor-line sensor-line--two"></span></div>
+    </div>
+    <span class="auth-aside-foot">Monitoreo basado en mediciones reales</span>
+  </section>
+  <section class="auth-form-side">
+    <div class="auth-form-wrap">
+      <div class="mobile-auth-brand"><span class="brand-mark">A</span><strong>AquaGuard</strong></div>
+      @if (!configured) {
+        <div class="auth-warning" role="alert"><strong>Configuración necesaria</strong><p>Configura <code>SUPABASE_URL</code> y <code>SUPABASE_ANON_KEY</code> en tu entorno local. Consulta el README.</p></div>
+      }
+      <div class="eyebrow">{{ recoveryMode ? 'RECUPERAR ACCESO' : 'ACCESO PRIVADO' }}</div>
+      <h2>{{ recoveryMode ? 'Restablece tu acceso' : 'Bienvenido de nuevo' }}</h2>
+      <p class="auth-intro">{{ recoveryMode ? 'Te enviaremos un enlace seguro para elegir una nueva contraseña.' : 'Inicia sesión para consultar los datos de tus dispositivos.' }}</p>
+      @if (error) {<div class="notice notice--error auth-notice" role="alert">{{ error }}</div>}
+      @if (success) {<div class="notice notice--success auth-notice" role="status">{{ success }}</div>}
+      <form (ngSubmit)="recoveryMode ? requestReset() : signIn()">
+        <label>Correo electrónico<input type="email" name="email" [(ngModel)]="email" autocomplete="email" required></label>
+        @if (!recoveryMode) {
+          <label>Contraseña<input type="password" name="password" [(ngModel)]="password" autocomplete="current-password" required></label>
+        }
+        <button class="button auth-submit" type="submit" [disabled]="loading || !configured">{{ loading ? 'Procesando…' : recoveryMode ? 'Enviar enlace de recuperación' : 'Iniciar sesión' }}</button>
+      </form>
+      @if (!recoveryMode) {<button class="auth-link" (click)="recoveryMode = true; error = ''; success = ''">¿Olvidaste tu contraseña?</button>}
+      @else {<button class="auth-link" (click)="recoveryMode = false; error = ''; success = ''">Volver a iniciar sesión</button>}
+      <p class="auth-no-signup">El acceso es privado. Solicita una invitación al administrador del proyecto.</p>
+    </div>
+    <span class="auth-copyright">AquaGuard IoT · Monitoreo ambiental</span>
+  </section>
+</div>

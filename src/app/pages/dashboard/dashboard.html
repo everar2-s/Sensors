@@ -1,0 +1,59 @@
+<div class="page-heading">
+  <div><div class="eyebrow">VISTA GENERAL</div><h1>Resumen del entorno</h1>
+    <p>Lecturas más recientes de tus sensores ambientales.</p></div>
+  <button class="button button--secondary" [disabled]="loading" (click)="refresh()"><span aria-hidden="true">↻</span> Actualizar</button>
+</div>
+@if (error) {
+  <div class="notice notice--error" role="alert"><strong>No se pudo actualizar.</strong> {{ error }}</div>
+}
+@if (isStale) {
+  <div class="notice notice--warning" role="status"><strong>Lectura antigua.</strong> No se han recibido mediciones en los últimos 90 segundos.</div>
+}
+@if (!loading && !error && !latest) {
+  <div class="empty-panel"><div class="empty-icon">◷</div><h2>Aún no hay mediciones</h2>
+    <p>Cuando el ESP32 envíe su primera lectura, aparecerá aquí. No se muestran valores de ejemplo.</p></div>
+}
+@if (latest) {
+  <div class="status-strip">
+    <div class="live-indicator"><span class="live-dot"></span> Datos disponibles</div>
+    <span>Dispositivo <strong>{{ latest.dispositivo || 'Sin identificador' }}</strong></span>
+    <span>Última medición <strong>{{ formatDate(latest.creado_en) }}</strong></span>
+    <span>Actualización de pantalla <strong>{{ updatedAt | date:'shortTime' }}</strong></span>
+    <span class="refresh-interval">Consulta cada 15 s</span>
+  </div>
+  <section class="metric-grid" aria-label="Mediciones actuales">
+    <article class="metric-card">
+      <div class="metric-icon metric-icon--temperature">°</div><div class="metric-label">Temperatura</div>
+      <div class="metric-value">{{ displayValue(latest.temperatura, '°') }}<span>C</span></div>
+      <div class="metric-caption">Medición ambiental</div>
+    </article>
+    <article class="metric-card">
+      <div class="metric-icon metric-icon--humidity">◌</div><div class="metric-label">Humedad relativa</div>
+      <div class="metric-value">{{ displayValue(latest.humedad, '') }}<span>%</span></div>
+      <div class="metric-caption">Humedad del ambiente</div>
+    </article>
+    <article class="metric-card">
+      <div class="metric-icon metric-icon--heat">⌁</div><div class="metric-label">Índice de calor</div>
+      <div class="metric-value">{{ displayValue(latest.indice_calor, '°') }}<span>C</span></div>
+      <div class="metric-caption">Estimación reportada por el sensor</div>
+    </article>
+    <article class="metric-card metric-card--device">
+      <div class="metric-icon metric-icon--device">▤</div><div class="metric-label">Dispositivo</div>
+      <div class="device-value">{{ latest.dispositivo || 'Sin identificador' }}</div>
+      <div class="metric-caption">Identificador recibido en la lectura</div>
+    </article>
+  </section>
+  <section class="charts-grid" aria-label="Tendencias recientes">
+    <app-chart-card metric="temperatura" title="Temperatura" subtitle="Evolución en el periodo seleccionado" />
+    <app-chart-card metric="humedad" title="Humedad relativa" subtitle="Evolución en el periodo seleccionado" />
+  </section>
+  <section class="table-panel">
+    <div class="panel-heading"><div><h2>Últimas mediciones</h2><p>Lecturas recibidas más recientemente</p></div><a class="link-button" routerLink="/history">Ver historial <span aria-hidden="true">→</span></a></div>
+    <div class="table-scroll"><table><thead><tr><th>Fecha y hora</th><th>Dispositivo</th><th>Temperatura</th><th>Humedad</th><th>Índice de calor</th></tr></thead>
+      <tbody>@for (row of recent; track row.id) {
+        <tr><td>{{ formatDate(row.creado_en) }}</td><td>{{ row.dispositivo || '—' }}</td>
+          <td>{{ displayValue(row.temperatura, ' °C') }}</td><td>{{ displayValue(row.humedad, ' %') }}</td><td>{{ displayValue(row.indice_calor, ' °C') }}</td></tr>
+      } @empty {<tr><td colspan="5" class="table-empty">No hay lecturas recientes.</td></tr>}</tbody>
+    </table></div>
+  </section>
+}

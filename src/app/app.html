@@ -1,0 +1,59 @@
+@if (authChecking()) {
+  <main class="session-checking" role="status" aria-live="polite"><span class="loading-spinner" aria-hidden="true"></span>Comprobando la sesión…</main>
+} @else if (isAuthPage) {
+  <main class="auth-only"><router-outlet /></main>
+} @else {
+<div class="app-shell">
+  <aside class="sidebar" [class.sidebar--open]="menuOpen()">
+    <a class="brand" routerLink="/dashboard" (click)="menuOpen.set(false)">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span>
+    </a>
+    <div class="sidebar-label">ESPACIO DE TRABAJO</div>
+    <nav class="primary-nav" aria-label="Navegación principal">
+      <a routerLink="/dashboard" routerLinkActive="nav-link--active" (click)="menuOpen.set(false)">
+        <span class="nav-symbol" aria-hidden="true">▦</span> Resumen
+      </a>
+      <a routerLink="/history" routerLinkActive="nav-link--active" (click)="menuOpen.set(false)">
+        <span class="nav-symbol" aria-hidden="true">◷</span> Historial
+      </a>
+      <a routerLink="/charts" routerLinkActive="nav-link--active" (click)="menuOpen.set(false)">
+        <span class="nav-symbol" aria-hidden="true">⌁</span> Gráficas
+      </a>
+      <a routerLink="/devices" routerLinkActive="nav-link--active" (click)="menuOpen.set(false)">
+        <span class="nav-symbol" aria-hidden="true">▤</span> Dispositivos
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <span class="sidebar-foot-dot"></span>
+      <span>Datos protegidos por sesión</span>
+    </div>
+  </aside>
+  @if (menuOpen()) {
+    <button class="sidebar-backdrop" aria-label="Cerrar menú" (click)="menuOpen.set(false)"></button>
+  }
+  <main class="main-area">
+    <header class="topbar">
+      <button class="menu-toggle" aria-label="Abrir menú" [attr.aria-expanded]="menuOpen()" (click)="menuOpen.set(!menuOpen())">☰</button>
+      <div class="topbar-title">AquaGuard <span>/</span> <span>Panel de monitoreo</span></div>
+      <div class="topbar-right">
+        <span class="secure-label"><span class="secure-dot"></span> Sesión segura</span>
+        @if (userEmail()) {
+          <div class="user-profile">
+            <span class="avatar">{{ userEmail().charAt(0).toUpperCase() }}</span>
+            <span class="user-email">{{ userEmail() }}</span>
+            <button class="text-button" (click)="signOut()">Cerrar sesión</button>
+          </div>
+        }
+      </div>
+    </header>
+    @if (authError()) {
+      <div class="page-container"><div class="notice notice--error" role="alert">{{ authError() }}</div></div>
+    }
+    <section class="page-container">
+      <router-outlet />
+    </section>
+    <footer class="app-footer">AquaGuard IoT <span>·</span> Los estados se estiman según la última medición recibida</footer>
+  </main>
+</div>
+}

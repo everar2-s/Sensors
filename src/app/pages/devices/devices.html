@@ -1,14 +1,14 @@
 <div class="page-heading"><div><div class="eyebrow">EQUIPOS REGISTRADOS</div><h1>Dispositivos</h1><p>Estado estimado a partir de la última medición recibida.</p></div>
   <div class="device-heading-actions"><span class="device-count">{{ devices.length }} {{ devices.length === 1 ? 'dispositivo' : 'dispositivos' }}</span>
-    <button class="button button--secondary" [disabled]="loading" (click)="refresh()">Actualizar</button></div></div>
+    <button class="button button--secondary" [disabled]="loading" (click)="refresh()"><span class="bi-icon bi-icon--arrow-clockwise" aria-hidden="true"></span> Actualizar</button></div></div>
 <div class="notice notice--info device-explainer"><strong>Cómo interpretar el estado:</strong> “Activo” significa que la última lectura se recibió hace no más de {{ thresholdMinutes }} minutos; no confirma conectividad Wi-Fi. “Sin datos recientes” indica una lectura más antigua.</div>
 @if (error) {<div class="notice notice--error" role="alert">{{ error }}</div>}
 @if (loading) {<div class="empty-panel device-loading">Consultando dispositivos…</div>}
-@else if (!devices.length && !error) {<div class="empty-panel"><div class="empty-icon">▤</div><h2>No hay dispositivos registrados</h2><p>Los dispositivos aparecerán al recibir mediciones con un identificador.</p></div>}
+@else if (!devices.length && !error) {<div class="empty-panel"><div class="empty-icon"><span class="bi-icon bi-icon--cpu" aria-hidden="true"></span></div><h2>No hay dispositivos registrados</h2><p>Los dispositivos aparecerán al recibir mediciones con un identificador.</p></div>}
 @else {
   <section class="device-grid">@for (device of devices; track device.dispositivo) {
     <article class="device-card">
-      <header class="device-card-header"><div class="device-card-icon">▤</div>
+      <header class="device-card-header"><div class="device-card-icon"><span class="bi-icon bi-icon--cpu" aria-hidden="true"></span></div>
         <span class="device-status" [class.device-status--active]="status(device) === 'activo'" [class.device-status--unknown]="status(device) === 'desconocido'">
           <span></span>{{ status(device) === 'activo' ? 'Activo*' : status(device) === 'desconocido' ? 'Desconocido' : 'Sin datos recientes' }}
         </span></header>

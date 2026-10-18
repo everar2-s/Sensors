@@ -17,6 +17,7 @@ export class LoginPage {
   email = '';
   password = '';
   loading = false;
+  showPassword = false;
   recoveryMode = false;
   error = '';
   success = '';

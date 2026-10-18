@@ -1,17 +1,18 @@
 <div class="page-heading"><div><div class="eyebrow">REGISTRO DE DATOS</div><h1>Historial de mediciones</h1><p>Consulta lecturas con filtros, orden y paginación.</p></div>
-  <button class="button button--secondary" [disabled]="!rows.length" (click)="exportCsv()"><span aria-hidden="true">↓</span> Exportar página CSV</button></div>
+  <button class="button button--secondary" [disabled]="!rows.length" (click)="exportCsv()"><span class="bi-icon bi-icon--download" aria-hidden="true"></span> Exportar página CSV</button></div>
 <section class="filter-panel">
   <label>Desde<input type="date" [(ngModel)]="startDate"></label>
   <label>Hasta<input type="date" [(ngModel)]="endDate"></label>
   <label>Dispositivo<input type="text" [(ngModel)]="device" placeholder="Ej. ESP32-01" (keydown.enter)="applyFilters()"></label>
   <label>Ordenar por<select [(ngModel)]="sort" (ngModelChange)="applyFilters()">@for (option of sortOptions; track option.value) {<option [value]="option.value">{{ option.label }}</option>}</select></label>
-  <button class="button" (click)="applyFilters()">Aplicar filtros</button>
+  <button class="button" (click)="applyFilters()"><span class="bi-icon bi-icon--funnel" aria-hidden="true"></span> Aplicar filtros</button>
+  <button class="button button--secondary" type="button" (click)="clearFilters()">Limpiar filtros</button>
 </section>
 @if (error) {<div class="notice notice--error" role="alert">{{ error }}</div>}
 @if (notice) {<div class="notice notice--success" role="status">{{ notice }}</div>}
 <section class="table-panel history-table">
   <div class="panel-heading"><div><h2>Mediciones</h2><p>Se consultan {{ pageSize }} filas por página desde Supabase.</p></div>
-    <button class="sort-button" (click)="changeSort()">{{ ascending ? 'Ascendente ↑' : 'Descendente ↓' }}</button></div>
+    <button class="sort-button" (click)="changeSort()"><span [class]="ascending ? 'bi-icon bi-icon--sort-up' : 'bi-icon bi-icon--sort-down'" aria-hidden="true"></span> {{ ascending ? 'Ascendente' : 'Descendente' }}</button></div>
   <div class="table-scroll"><table><thead><tr><th>Fecha y hora local</th><th>Temperatura</th><th>Humedad</th><th>Índice de calor</th><th>Dispositivo</th></tr></thead>
     <tbody>@if (loading) {<tr><td colspan="5" class="table-empty">Cargando mediciones…</td></tr>}
       @else { @for (row of rows; track row.id) {
@@ -20,8 +21,8 @@
       } @empty {<tr><td colspan="5" class="table-empty">No hay mediciones que coincidan con estos filtros.</td></tr>} }</tbody>
   </table></div>
   <div class="pagination"><span>{{ firstRecord }}–{{ lastRecord }} de {{ total }}</span><div>
-    <button class="button button--secondary button--small" [disabled]="page === 0 || loading" (click)="changePage(-1)">Anterior</button>
+    <button class="button button--secondary button--small" [disabled]="page === 0 || loading" (click)="changePage(-1)"><span class="bi-icon bi-icon--chevron-left" aria-hidden="true"></span> Anterior</button>
     <span class="page-counter">Página {{ page + 1 }} de {{ pageCount }}</span>
-    <button class="button button--secondary button--small" [disabled]="page + 1 >= pageCount || loading" (click)="changePage(1)">Siguiente</button>
+    <button class="button button--secondary button--small" [disabled]="page + 1 >= pageCount || loading" (click)="changePage(1)">Siguiente <span class="bi-icon bi-icon--chevron-right" aria-hidden="true"></span></button>
   </div></div>
 </section>

@@ -1,6 +1,6 @@
 <div class="auth-layout">
   <section class="auth-aside">
-    <a class="auth-brand" routerLink="/login"><span class="brand-mark">A</span><span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span></a>
+    <a class="auth-brand" routerLink="/login"><span class="brand-mark" aria-hidden="true"><span class="bi-icon bi-icon--broadcast-pin"></span></span><span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span></a>
     <div class="auth-message">
       <div class="eyebrow">AQUAGUARD IoT</div><h1>El entorno,<br>conectado a ti.</h1>
       <p>Información ambiental clara y actualizada para tus dispositivos de monitoreo.</p>
@@ -10,7 +10,7 @@
   </section>
   <section class="auth-form-side">
     <div class="auth-form-wrap">
-      <div class="mobile-auth-brand"><span class="brand-mark">A</span><strong>AquaGuard</strong></div>
+      <div class="mobile-auth-brand"><span class="brand-mark" aria-hidden="true"><span class="bi-icon bi-icon--broadcast-pin"></span></span><strong>AquaGuard</strong></div>
       @if (!configured) {
         <div class="auth-warning" role="alert"><strong>Configuración necesaria</strong><p>Configura <code>SUPABASE_URL</code> y <code>SUPABASE_ANON_KEY</code> en tu entorno local. Consulta el README.</p></div>
       }
@@ -22,7 +22,7 @@
       <form (ngSubmit)="recoveryMode ? requestReset() : signIn()">
         <label>Correo electrónico<input type="email" name="email" [(ngModel)]="email" autocomplete="email" required></label>
         @if (!recoveryMode) {
-          <label>Contraseña<input type="password" name="password" [(ngModel)]="password" autocomplete="current-password" required></label>
+          <label>Contraseña<div class="password-field"><input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" autocomplete="current-password" required><button class="password-toggle" type="button" [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'" [attr.aria-pressed]="showPassword" (click)="showPassword = !showPassword">{{ showPassword ? 'Ocultar' : 'Mostrar' }}</button></div></label>
         }
         <button class="button auth-submit" type="submit" [disabled]="loading || !configured">{{ loading ? 'Procesando…' : recoveryMode ? 'Enviar enlace de recuperación' : 'Iniciar sesión' }}</button>
       </form>

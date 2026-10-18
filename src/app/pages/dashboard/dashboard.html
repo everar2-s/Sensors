@@ -1,7 +1,7 @@
 <div class="page-heading">
   <div><div class="eyebrow">VISTA GENERAL</div><h1>Resumen del entorno</h1>
     <p>Lecturas más recientes de tus sensores ambientales.</p></div>
-  <button class="button button--secondary" [disabled]="loading" (click)="refresh()"><span aria-hidden="true">↻</span> Actualizar</button>
+  <button class="button button--secondary" [disabled]="loading" (click)="refresh()"><span class="bi-icon bi-icon--arrow-clockwise" aria-hidden="true"></span> Actualizar</button>
 </div>
 @if (error) {
   <div class="notice notice--error" role="alert"><strong>No se pudo actualizar.</strong> {{ error }}</div>
@@ -10,7 +10,7 @@
   <div class="notice notice--warning" role="status"><strong>Lectura antigua.</strong> No se han recibido mediciones en los últimos 90 segundos.</div>
 }
 @if (!loading && !error && !latest) {
-  <div class="empty-panel"><div class="empty-icon">◷</div><h2>Aún no hay mediciones</h2>
+  <div class="empty-panel"><div class="empty-icon"><span class="bi-icon bi-icon--clock-history" aria-hidden="true"></span></div><h2>Aún no hay mediciones</h2>
     <p>Cuando el ESP32 envíe su primera lectura, aparecerá aquí. No se muestran valores de ejemplo.</p></div>
 }
 @if (latest) {
@@ -23,22 +23,22 @@
   </div>
   <section class="metric-grid" aria-label="Mediciones actuales">
     <article class="metric-card">
-      <div class="metric-icon metric-icon--temperature">°</div><div class="metric-label">Temperatura</div>
+      <div class="metric-icon metric-icon--temperature"><span class="bi-icon bi-icon--thermometer-half" aria-hidden="true"></span></div><div class="metric-label">Temperatura</div>
       <div class="metric-value">{{ displayValue(latest.temperatura, '°') }}<span>C</span></div>
       <div class="metric-caption">Medición ambiental</div>
     </article>
     <article class="metric-card">
-      <div class="metric-icon metric-icon--humidity">◌</div><div class="metric-label">Humedad relativa</div>
+      <div class="metric-icon metric-icon--humidity"><span class="bi-icon bi-icon--droplet-half" aria-hidden="true"></span></div><div class="metric-label">Humedad relativa</div>
       <div class="metric-value">{{ displayValue(latest.humedad, '') }}<span>%</span></div>
       <div class="metric-caption">Humedad del ambiente</div>
     </article>
     <article class="metric-card">
-      <div class="metric-icon metric-icon--heat">⌁</div><div class="metric-label">Índice de calor</div>
+      <div class="metric-icon metric-icon--heat"><span class="bi-icon bi-icon--thermometer-sun" aria-hidden="true"></span></div><div class="metric-label">Índice de calor</div>
       <div class="metric-value">{{ displayValue(latest.indice_calor, '°') }}<span>C</span></div>
       <div class="metric-caption">Estimación reportada por el sensor</div>
     </article>
     <article class="metric-card metric-card--device">
-      <div class="metric-icon metric-icon--device">▤</div><div class="metric-label">Dispositivo</div>
+      <div class="metric-icon metric-icon--device"><span class="bi-icon bi-icon--cpu" aria-hidden="true"></span></div><div class="metric-label">Dispositivo</div>
       <div class="device-value">{{ latest.dispositivo || 'Sin identificador' }}</div>
       <div class="metric-caption">Identificador recibido en la lectura</div>
     </article>
@@ -48,7 +48,7 @@
     <app-chart-card metric="humedad" title="Humedad relativa" subtitle="Evolución en el periodo seleccionado" />
   </section>
   <section class="table-panel">
-    <div class="panel-heading"><div><h2>Últimas mediciones</h2><p>Lecturas recibidas más recientemente</p></div><a class="link-button" routerLink="/history">Ver historial <span aria-hidden="true">→</span></a></div>
+    <div class="panel-heading"><div><h2>Últimas mediciones</h2><p>Lecturas recibidas más recientemente</p></div><a class="link-button" routerLink="/history">Ver historial <span class="bi-icon bi-icon--arrow-right" aria-hidden="true"></span></a></div>
     <div class="table-scroll"><table><thead><tr><th>Fecha y hora</th><th>Dispositivo</th><th>Temperatura</th><th>Humedad</th><th>Índice de calor</th></tr></thead>
       <tbody>@for (row of recent; track row.id) {
         <tr><td>{{ formatDate(row.creado_en) }}</td><td>{{ row.dispositivo || '—' }}</td>

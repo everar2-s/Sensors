@@ -51,11 +51,23 @@ export class HistoryPage implements OnInit {
   }
 
   applyFilters(): void {
+    this.error = '';
     if (this.startDate && this.endDate && this.startDate > this.endDate) {
       this.error = 'La fecha inicial debe ser anterior o igual a la fecha final.';
       return;
     }
     this.page = 0;
+    void this.load();
+  }
+
+  clearFilters(): void {
+    this.startDate = '';
+    this.endDate = '';
+    this.device = '';
+    this.sort = 'creado_en';
+    this.ascending = false;
+    this.page = 0;
+    this.error = '';
     void this.load();
   }
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">AquaGuard</title>
+  <defs>
+    <linearGradient id="g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1fc79b"/>
+      <stop offset="1" stop-color="#0d7d62"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#g)" d="M32 3C25 14 12 28 12 40a20 20 0 0 0 40 0C52 28 39 14 32 3Z"/>
+  <path d="M21 40c4 5 8 7 12 7s8-2 11-7" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="4"/>
+  <circle cx="32" cy="32" r="3" fill="#fff"/>
+</svg>

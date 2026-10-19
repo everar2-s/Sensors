@@ -8,7 +8,7 @@ import { AuthService } from '../../core/auth.service';
   imports: [FormsModule, RouterLink],
   template: `
     <main class="reset-card">
-      <a class="brand reset-brand" routerLink="/login"><span class="brand-mark" aria-hidden="true"><span class="bi-icon bi-icon--broadcast-pin"></span></span><span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span></a>
+      <a class="brand reset-brand" routerLink="/login"><span class="brand-mark" aria-hidden="true"><img src="/icons/aquaguard-logo.svg" alt=""></span><span><strong>AquaGuard</strong><small>MONITOREO AMBIENTAL</small></span></a>
       @if (!ready && !error) {<p>Comprobando el enlace de recuperación…</p>}
       @if (error) {<div class="notice notice--error" role="alert">{{ error }}</div>}
       @if (success) {<div class="notice notice--success" role="status">{{ success }}</div>}

@@ -24,17 +24,17 @@
   <section class="metric-grid" aria-label="Mediciones actuales">
     <article class="metric-card">
       <div class="metric-icon metric-icon--temperature"><span class="bi-icon bi-icon--thermometer-half" aria-hidden="true"></span></div><div class="metric-label">Temperatura</div>
-      <div class="metric-value">{{ displayValue(latest.temperatura, '°') }}<span>C</span></div>
+      <div class="metric-value">{{ displayValue(currentValue(latest.temperatura), '°') }}<span>C</span></div>
       <div class="metric-caption">Medición ambiental</div>
     </article>
     <article class="metric-card">
       <div class="metric-icon metric-icon--humidity"><span class="bi-icon bi-icon--droplet-half" aria-hidden="true"></span></div><div class="metric-label">Humedad relativa</div>
-      <div class="metric-value">{{ displayValue(latest.humedad, '') }}<span>%</span></div>
+      <div class="metric-value">{{ displayValue(currentValue(latest.humedad), '') }}<span>%</span></div>
       <div class="metric-caption">Humedad del ambiente</div>
     </article>
     <article class="metric-card">
       <div class="metric-icon metric-icon--heat"><span class="bi-icon bi-icon--thermometer-sun" aria-hidden="true"></span></div><div class="metric-label">Índice de calor</div>
-      <div class="metric-value">{{ displayValue(latest.indice_calor, '°') }}<span>C</span></div>
+      <div class="metric-value">{{ displayValue(currentValue(latest.indice_calor), '°') }}<span>C</span></div>
       <div class="metric-caption">Estimación reportada por el sensor</div>
     </article>
     <article class="metric-card metric-card--device">

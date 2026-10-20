@@ -28,6 +28,10 @@ export class DashboardPage implements OnInit, OnDestroy {
       Date.now() - new Date(this.latest.creado_en).getTime() > STALE_MEASUREMENT_MS);
   }
 
+  currentValue(value: number | null): number | null {
+    return this.isStale ? 0 : value;
+  }
+
   ngOnInit(): void {
     void this.load();
     this.timer = setInterval(() => void this.load(), 15000);

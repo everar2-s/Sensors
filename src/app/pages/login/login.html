@@ -12,7 +12,7 @@
     <div class="auth-form-wrap">
       <div class="mobile-auth-brand"><span class="brand-mark" aria-hidden="true"><img src="/icons/aquaguard-logo.svg" alt=""></span><strong>AquaGuard</strong></div>
       @if (!configured) {
-        <div class="auth-warning" role="alert"><strong>Configuración necesaria</strong><p>Configura <code>SUPABASE_URL</code> y <code>SUPABASE_ANON_KEY</code> en tu entorno local. Consulta el README.</p></div>
+        <div class="auth-warning" role="alert"><strong>Configuración necesaria</strong><p>Completa la configuración de conexión en tu entorno local. Consulta el README.</p></div>
       }
       <div class="eyebrow">{{ recoveryMode ? 'RECUPERAR ACCESO' : 'ACCESO PRIVADO' }}</div>
       <h2>{{ recoveryMode ? 'Restablece tu acceso' : 'Bienvenido de nuevo' }}</h2>

@@ -1,0 +1,124 @@
+<div class="page-heading">
+  <div>
+    <div class="eyebrow">DIRECTORIO DEL PERSONAL</div>
+    <h1>Empleados</h1>
+    <p>Consulta la información del personal registrado.</p>
+  </div>
+  <div class="employee-heading-actions">
+    <span class="employee-count">{{ employees.length }} {{ employees.length === 1 ? 'empleado' : 'empleados' }}</span>
+    <button class="button" type="button" (click)="openCreateForm()">
+      <span class="bi-icon bi-icon--plus-lg" aria-hidden="true"></span> Agregar empleado
+    </button>
+    <button class="button button--secondary" type="button" [disabled]="loading || saving" (click)="refresh()">
+      <span class="bi-icon bi-icon--arrow-clockwise" aria-hidden="true"></span> Actualizar
+    </button>
+  </div>
+</div>
+
+@if (error) {
+  <div class="notice notice--error" role="alert">No se pudo consultar el directorio: {{ error }}</div>
+}
+@if (success) {
+  <div class="notice notice--success" role="status">{{ success }}</div>
+}
+
+@if (formOpen) {
+  <section class="employee-form-panel" aria-labelledby="employee-form-title">
+    <div class="panel-heading">
+      <div>
+        <h2 id="employee-form-title">{{ editingEmployee ? 'Editar empleado' : 'Nuevo empleado' }}</h2>
+        <p>Completa la información del empleado.</p>
+      </div>
+    </div>
+    @if (formError) {
+      <div class="notice notice--error employee-form-error" role="alert">{{ formError }}</div>
+    }
+    <form class="employee-form" (ngSubmit)="saveEmployee()">
+      @if (!editingEmployee) {
+        <label>Clave
+          <input type="number" name="clave" [(ngModel)]="employeeForm.Clave" min="1" step="1" required>
+        </label>
+      }
+      <label>Nombre
+        <input type="text" name="nombre" [(ngModel)]="employeeForm.Nombre" autocomplete="name" required>
+      </label>
+      <label>Dirección
+        <input type="text" name="direccion" [(ngModel)]="employeeForm.direccion" autocomplete="street-address" required>
+      </label>
+      <label>Fecha de nacimiento
+        <input type="date" name="fechadenacimiento" [(ngModel)]="employeeForm.fechadenacimiento" required>
+      </label>
+      <label>Sexo
+        <select name="sexo" [(ngModel)]="employeeForm.sexo" required>
+          <option value="" disabled>Selecciona un género</option>
+          @for (gender of genders; track gender) {
+            <option [value]="gender">{{ gender }}</option>
+          }
+        </select>
+      </label>
+      <label>Tipo de sangre
+        <select name="tipodesangre" [(ngModel)]="employeeForm.tipodesangre" required>
+          <option value="" disabled>Selecciona un tipo de sangre</option>
+          @for (bloodType of bloodTypes; track bloodType) {
+            <option [value]="bloodType">{{ bloodType }}</option>
+          }
+        </select>
+      </label>
+      <div class="employee-form-actions">
+        <button class="button button--secondary" type="button" [disabled]="saving" (click)="closeForm()">Cancelar</button>
+        <button class="button" type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando…' : editingEmployee ? 'Guardar cambios' : 'Crear empleado' }}
+        </button>
+      </div>
+    </form>
+  </section>
+}
+
+<section class="table-panel employee-table">
+  <div class="panel-heading">
+    <div>
+      <h2>Directorio de empleados</h2>
+      <p>Información proporcionada por la API de empleados.</p>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table aria-label="Lista de empleados">
+      <thead>
+        <tr>
+          <th scope="col">Clave</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Dirección</th>
+          <th scope="col">Fecha de nacimiento</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">Tipo de sangre</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (loading) {
+          <tr><td colspan="7" class="table-empty">Cargando empleados…</td></tr>
+        } @else if (error && !employees.length) {
+          <tr><td colspan="7" class="table-empty">No fue posible cargar los empleados.</td></tr>
+        } @else {
+          @for (employee of employees; track employee.Clave) {
+            <tr>
+              <td>{{ employee.Clave }}</td>
+              <td>{{ employee.Nombre }}</td>
+              <td class="employee-address">{{ employee.direccion }}</td>
+              <td>{{ formatDate(employee.fechadenacimiento) }}</td>
+              <td>{{ employee.sexo }}</td>
+              <td>{{ employee.tipodesangre }}</td>
+              <td>
+                <button class="button button--secondary button--small" type="button" [disabled]="saving" (click)="openEditForm(employee)">
+                  Editar
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="7" class="table-empty">No hay empleados registrados.</td></tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

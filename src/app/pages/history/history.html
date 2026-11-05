@@ -11,7 +11,7 @@
 @if (error) {<div class="notice notice--error" role="alert">{{ error }}</div>}
 @if (notice) {<div class="notice notice--success" role="status">{{ notice }}</div>}
 <section class="table-panel history-table">
-  <div class="panel-heading"><div><h2>Mediciones</h2><p>Se consultan {{ pageSize }} filas por página desde Supabase.</p></div>
+  <div class="panel-heading"><div><h2>Mediciones</h2><p>Se consultan {{ pageSize }} filas por página desde el servicio de datos.</p></div>
     <button class="sort-button" (click)="changeSort()"><span [class]="ascending ? 'bi-icon bi-icon--sort-up' : 'bi-icon bi-icon--sort-down'" aria-hidden="true"></span> {{ ascending ? 'Ascendente' : 'Descendente' }}</button></div>
   <div class="table-scroll"><table><thead><tr><th>Fecha y hora local</th><th>Temperatura</th><th>Humedad</th><th>Índice de calor</th><th>Dispositivo</th></tr></thead>
     <tbody>@if (loading) {<tr><td colspan="5" class="table-empty">Cargando mediciones…</td></tr>}

@@ -290,10 +290,11 @@ input::placeholder { color: #a3b3ab; }
 /* ---------- Iconos (máscaras) ---------- */
 .bi-icon { display: inline-block; width: 1em; height: 1em; flex: 0 0 auto; vertical-align: -.125em; background-color: currentColor; mask-position: center; mask-repeat: no-repeat; mask-size: contain; -webkit-mask-position: center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; }
 .bi-icon--grid-1x2 { mask-image: url('/icons/grid-1x2.svg'); -webkit-mask-image: url('/icons/grid-1x2.svg'); }
-.bi-icon--broadcast-pin { width: 21px; height: 21px; background-color: #fff; mask-image: url('/icons/broadcast-pin.svg'); -webkit-mask-image: url('/icons/broadcast-pin.svg'); }
 .bi-icon--clock-history { mask-image: url('/icons/clock-history.svg'); -webkit-mask-image: url('/icons/clock-history.svg'); }
 .bi-icon--graph-up { mask-image: url('/icons/graph-up.svg'); -webkit-mask-image: url('/icons/graph-up.svg'); }
 .bi-icon--cpu { mask-image: url('/icons/cpu.svg'); -webkit-mask-image: url('/icons/cpu.svg'); }
+.bi-icon--people { mask-image: url('/icons/people.svg'); -webkit-mask-image: url('/icons/people.svg'); }
+.bi-icon--plus-lg { mask-image: url('/icons/plus-lg.svg'); -webkit-mask-image: url('/icons/plus-lg.svg'); }
 .bi-icon--list { mask-image: url('/icons/list.svg'); -webkit-mask-image: url('/icons/list.svg'); }
 .bi-icon--arrow-clockwise { mask-image: url('/icons/arrow-clockwise.svg'); -webkit-mask-image: url('/icons/arrow-clockwise.svg'); }
 .bi-icon--thermometer-half { mask-image: url('/icons/thermometer-half.svg'); -webkit-mask-image: url('/icons/thermometer-half.svg'); }

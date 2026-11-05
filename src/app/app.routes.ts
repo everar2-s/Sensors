@@ -12,7 +12,8 @@ export const routes: Routes = [
       { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.DashboardPage) },
       { path: 'history', loadComponent: () => import('./pages/history/history').then((m) => m.HistoryPage) },
       { path: 'charts', loadComponent: () => import('./pages/charts/charts').then((m) => m.ChartsPage) },
-      { path: 'devices', loadComponent: () => import('./pages/devices/devices').then((m) => m.DevicesPage) }
+      { path: 'devices', loadComponent: () => import('./pages/devices/devices').then((m) => m.DevicesPage) },
+      { path: 'empleados', loadComponent: () => import('./pages/employees/employees').then((m) => m.EmployeesPage) }
     ]
   },
   { path: '**', redirectTo: 'dashboard' }

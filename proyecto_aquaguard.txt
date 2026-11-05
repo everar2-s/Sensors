@@ -1,0 +1,80 @@
+﻿PORTADA
+
+Proyecto: AquaGuard IoT – Sistema de monitoreo ambiental
+
+Integrantes del equipo:
+1. [Nombre completo del integrante 1]
+2. [Nombre completo del integrante 2]
+3. [Nombre completo del integrante 3]
+4. [Nombre completo del integrante 4]
+
+Materia: [Nombre de la materia]
+Docente: [Nombre del docente]
+Grupo: [Grupo]
+Fecha: [Fecha de entrega]
+
+Nota: Los nombres del equipo y los datos escolares no aparecen en el repositorio; completar los espacios antes de entregar.
+
+
+1. NOMBRE DEL PROYECTO
+
+AquaGuard IoT: plataforma de monitoreo ambiental para consultar en tiempo real e históricamente las mediciones tomadas por dispositivos sensores. El sistema presenta temperatura, humedad e índice de calor en un panel web.
+
+
+2. DEFINICIÓN DEL PROBLEMA
+
+En espacios donde las condiciones ambientales pueden afectar la comodidad, los equipos o las actividades de las personas, las lecturas tomadas por sensores suelen quedar dispersas o ser difíciles de revisar. Sin un registro centralizado, es complicado conocer la condición más reciente, detectar cuándo dejó de reportar un dispositivo, comparar periodos y analizar cambios en las variables.
+
+AquaGuard IoT atiende este problema al recibir y consultar mediciones identificadas por dispositivo y fecha. El panel permite visualizar la lectura más reciente, consultar el historial mediante filtros, revisar gráficas por periodos y estimar la actividad de cada dispositivo según la fecha de su última lectura. La aplicación requiere lecturas reales; no genera datos ficticios.
+
+
+3. MODELOS DE DATOS: TABLAS Y COLECCIONES
+
+3.1 Base de datos relacional (PostgreSQL de Supabase)
+
+Tabla public.mediciones (tabla confirmada por el código del proyecto):
+- id: identificador único de la lectura.
+- temperatura: temperatura registrada, numérica y posiblemente nula.
+- humedad: porcentaje de humedad, numérico y posiblemente nulo.
+- indice_calor: índice de calor calculado o informado por el sensor, numérico y posiblemente nulo.
+- dispositivo: identificador del sensor que reportó la lectura, texto y posiblemente nulo.
+- creado_en: fecha y hora de registro, temporal y posiblemente nula.
+
+Relaciones recomendadas para una ampliación del esquema:
+- dispositivos: id, nombre, ubicación, fecha de instalación y estado esperado. Una lectura se relacionaría con un dispositivo mediante dispositivo_id.
+- No se confirma que estas tablas adicionales existan actualmente; el frontend consulta únicamente public.mediciones.
+
+Supabase Auth también gestiona cuentas para el acceso privado, pero el caso relacional principal del proyecto es el registro y consulta de mediciones, no el inicio de sesión.
+
+3.2 Base de datos no relacional (propuesta de colección documental)
+
+El repositorio no configura una base NoSQL ni consulta colecciones actualmente. Para una arquitectura ampliada se propone MongoDB con estas colecciones:
+
+Colección eventos_dispositivo:
+- _id: identificador del evento.
+- dispositivo_id: identificador del sensor.
+- tipo_evento: por ejemplo, inicio, desconexión, reconexión, batería baja o error.
+- fecha_hora: momento del evento.
+- detalles: documento flexible con atributos específicos del evento, como código de error, nivel de batería o causa reportada.
+
+Colección telemetria_bruta (opcional, si el sensor envía mensajes con formatos variables):
+- _id: identificador del mensaje.
+- dispositivo_id: identificador del sensor.
+- fecha_hora: fecha de recepción.
+- payload: documento JSON original recibido, conservando campos particulares del fabricante o firmware.
+
+Estas colecciones son una propuesta para la parte NoSQL; no deben presentarse como implementadas en la versión actual.
+
+
+4. JUSTIFICACIÓN DEL PROCESO ADMINISTRADO POR LA BASE DE DATOS RELACIONAL
+
+La base relacional administra el almacenamiento y consulta del historial de mediciones ambientales. Cada lectura tiene campos conocidos y tipos definidos, por lo que una tabla estructurada facilita validar y organizar los datos. La fecha y el identificador permiten ordenar lecturas; el identificador de dispositivo y los rangos de fecha permiten filtrar; y los valores de temperatura, humedad e índice de calor permiten elaborar gráficas y resúmenes.
+
+Este proceso es central para el funcionamiento de AquaGuard: el dashboard recupera la medición más reciente y las lecturas recientes; el historial filtra, ordena y pagina registros; las gráficas consultan mediciones de un intervalo; y la vista de dispositivos obtiene la última lectura de cada identificador. PostgreSQL es adecuado porque conserva consistencia en los registros y permite consultas eficientes por columnas, fechas y dispositivos. Las políticas de acceso pueden restringir la lectura a usuarios autenticados mientras los sensores autorizados insertan mediciones.
+
+
+5. JUSTIFICACIÓN DEL PROCESO ADMINISTRADO POR LA BASE DE DATOS NO RELACIONAL
+
+Como complemento propuesto, una base NoSQL administraría los eventos operativos y mensajes variables enviados por los dispositivos IoT. La colección eventos_dispositivo guardaría sucesos como desconexiones, reconexiones, batería baja y errores. Estos eventos permitirían construir una bitácora de diagnóstico y explicar por qué un dispositivo dejó de enviar lecturas, en lugar de inferir toda su condición únicamente a partir del tiempo transcurrido desde la última medición.
+
+Una colección documental es conveniente porque cada tipo de evento puede incluir propiedades distintas, representadas en el campo detalles, sin tener que modificar una tabla rígida cada vez que aparece un nuevo tipo de sensor o firmware. Si los mensajes originales del sensor también cambian de estructura, telemetria_bruta permitiría conservar el payload recibido para auditoría y análisis posterior. Esta base NoSQL complementaría a PostgreSQL: la base relacional seguiría siendo la fuente estructurada del historial numérico consultado por el panel, mientras NoSQL atendería la bitácora flexible de eventos y mensajes. Esta integración es una propuesta y no forma parte de la implementación actual.
